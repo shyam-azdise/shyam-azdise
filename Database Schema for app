@@ -1,0 +1,57 @@
+Designing a database schema for an online astrology consultation business involves identifying the key entities and their relationships. 
+Below is a simplified example of a database schema for such a business. 
+Please note that the actual schema may vary based on specific requirements and features.
+
+Entities:
+
+1. **User:**
+   - UserID (Primary Key)
+   - Username
+   - Password
+   - Email
+   - UserType (Client or Astrologer)
+   - Other relevant user details (name, contact information, etc.)
+
+2. **AstrologerProfile:**
+   - AstrologerID (Primary Key, Foreign Key referencing User.UserID)
+   - Specialization
+   - Experience
+   - Certification
+   - Availability schedule
+
+3. **Consultation:**
+   - ConsultationID (Primary Key)
+   - UserID (Foreign Key referencing User.UserID)
+   - AstrologerID (Foreign Key referencing AstrologerProfile.AstrologerID)
+   - Date
+   - Duration
+   - Status (Scheduled, Completed, Canceled, etc.)
+   - PaymentStatus (Paid, Unpaid)
+
+4. **Payment:**
+   - PaymentID (Primary Key)
+   - ConsultationID (Foreign Key referencing Consultation.ConsultationID)
+   - Amount
+   - PaymentDate
+   - PaymentStatus
+
+5. **ChatMessages:**
+   - MessageID (Primary Key)
+   - ConsultationID (Foreign Key referencing Consultation.ConsultationID)
+   - SenderID (Foreign Key referencing User.UserID)
+   - ReceiverID (Foreign Key referencing User.UserID)
+   - MessageType (Text, Image, etc.)
+   - MessageContent
+   - Timestamp
+
+This schema includes the following relationships:
+
+- Each user (whether a client or an astrologer) is identified by a unique UserID.
+- AstrologerProfile is associated with the User table through the AstrologerID.
+- Consultation table links users (client and astrologer) with a scheduled consultation. It references both the UserID and AstrologerID.
+- Payment table links payments to a specific consultation using the ConsultationID.
+- ChatMessages table keeps track of messages exchanged during consultations, linking them to the specific consultation and the users involved.
+
+This is a basic schema, and depending on your business requirements, you may need to expand or modify it. 
+For instance, you might want to include additional tables for user reviews, astrology categories, or more detailed user profiles. 
+Always consider the specific features and functionalities your online astrology consultation platform will offer.
