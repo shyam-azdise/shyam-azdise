@@ -1,0 +1,56 @@
+-- Create the User table
+CREATE TABLE User (
+    UserID INT PRIMARY KEY AUTO_INCREMENT,
+    Username VARCHAR(255) NOT NULL,
+    Password VARCHAR(255) NOT NULL,
+    Email VARCHAR(255) NOT NULL,
+    UserType ENUM('Client', 'Astrologer') NOT NULL,
+    -- Add other relevant user details
+);
+
+-- Create the AstrologerProfile table
+CREATE TABLE AstrologerProfile (
+    AstrologerID INT PRIMARY KEY,
+    Specialization VARCHAR(255),
+    Experience INT,
+    Certification VARCHAR(255),
+    AvailabilitySchedule VARCHAR(255),
+    FOREIGN KEY (AstrologerID) REFERENCES User(UserID)
+);
+
+-- Create the Consultation table
+CREATE TABLE Consultation (
+    ConsultationID INT PRIMARY KEY AUTO_INCREMENT,
+    UserID INT,
+    AstrologerID INT,
+    Date DATE,
+    Duration INT,
+    Status ENUM('Scheduled', 'Completed', 'Canceled') DEFAULT 'Scheduled',
+    PaymentStatus ENUM('Paid', 'Unpaid') DEFAULT 'Unpaid',
+    FOREIGN KEY (UserID) REFERENCES User(UserID),
+    FOREIGN KEY (AstrologerID) REFERENCES AstrologerProfile(AstrologerID)
+);
+
+-- Create the Payment table
+CREATE TABLE Payment (
+    PaymentID INT PRIMARY KEY AUTO_INCREMENT,
+    ConsultationID INT,
+    Amount DECIMAL(10, 2),
+    PaymentDate DATE,
+    PaymentStatus ENUM('Paid', 'Unpaid') DEFAULT 'Unpaid',
+    FOREIGN KEY (ConsultationID) REFERENCES Consultation(ConsultationID)
+);
+
+-- Create the ChatMessages table
+CREATE TABLE ChatMessages (
+    MessageID INT PRIMARY KEY AUTO_INCREMENT,
+    ConsultationID INT,
+    SenderID INT,
+    ReceiverID INT,
+    MessageType VARCHAR(50),
+    MessageContent TEXT,
+    Timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (ConsultationID) REFERENCES Consultation(ConsultationID),
+    FOREIGN KEY (SenderID) REFERENCES User(UserID),
+    FOREIGN KEY (ReceiverID) REFERENCES User(UserID)
+);
